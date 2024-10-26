@@ -2,34 +2,43 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../../Components/NavBar/NavBar";
 import EventCard from "../../Components/EventCard/EventCard";
 import { db } from "../../firebase/firebase";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 
 const HomePage = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Use Firestore's onSnapshot to get real-time updates
-        const unsubscribe = onSnapshot(
-            collection(db, "Events"),
-            (snapshot) => {
-                const eventsData = snapshot.docs.map((doc) => ({
+        const fetchEvents = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "Events"));
+                const eventsData = querySnapshot.docs.map((doc) => ({
                     eventID: doc.id,
                     ...doc.data(),
                 }));
 
+                console.log("Fetched Events:", eventsData);
                 setEvents(eventsData);
-                setLoading(false); // Stop loading after initial data is fetched
-            },
-            (error) => {
+            } catch (error) {
                 console.error("Error fetching events: ", error);
+            } finally {
                 setLoading(false);
             }
-        );
+        };
 
-        // Cleanup the listener on component unmount
-        return () => unsubscribe();
+        fetchEvents();
     }, []);
+
+    const handleDeleteEvent = async (eventID) => {
+        try {
+            await deleteDoc(doc(db, "Events", eventID));
+            setEvents((prevEvents) =>
+                prevEvents.filter((event) => event.eventID !== eventID)
+            );
+        } catch (error) {
+            console.error("Error deleting event:", error);
+        }
+    };
 
     return (
         <div>
@@ -38,7 +47,11 @@ const HomePage = () => {
                 <p>Loading events...</p>
             ) : events.length > 0 ? (
                 events.map((event) => (
-                    <EventCard key={event.eventID} event={event} />
+                    <EventCard
+                        key={event.eventID}
+                        event={event}
+                        handleDelete={handleDeleteEvent}
+                    />
                 ))
             ) : (
                 <p>No events found.</p>

@@ -11,7 +11,6 @@ import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import Button from "@mui/material/Button";
 import CreateEventModal from "../CreateEventModal/CreateEventModal";
-import AddContributionModal from "../EventCard/EventCard";
 import "./NavBar.css";
 
 export default function NavBar() {

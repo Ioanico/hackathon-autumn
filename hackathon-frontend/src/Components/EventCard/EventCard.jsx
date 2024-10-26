@@ -6,10 +6,12 @@ import {
     List,
     ListItem,
     ListItemText,
+    IconButton,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import "./EventCard.css";
 
-const EventCard = ({ event }) => {
+const EventCard = ({ event, handleDelete }) => {
     if (!event) {
         console.error("Event prop is undefined");
         return null;
@@ -36,6 +38,14 @@ const EventCard = ({ event }) => {
                         </ListItem>
                     ))}
                 </List>
+
+                <IconButton
+                    onClick={() => handleDelete(event.eventID)}
+                    color="error"
+                    aria-label="delete"
+                >
+                    <DeleteIcon />
+                </IconButton>
             </CardContent>
         </Card>
     );
