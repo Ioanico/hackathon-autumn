@@ -11,7 +11,7 @@ import { db } from "../../firebase/firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
-const CreateEventModal = ({ open, onClose }) => {
+const CreateEventModal = ({ open, onClose, onCreateEvent }) => {
     const [title, setTitle] = useState("");
     const [date, setDate] = useState("");
     const [location, setLocation] = useState("");
@@ -26,7 +26,9 @@ const CreateEventModal = ({ open, onClose }) => {
                 date,
                 location,
                 budget: Number(budget),
+                contributions: [],
             });
+            onCreateEvent(eventID);
             onClose();
         } catch (error) {
             console.error("Error creating event:", error);

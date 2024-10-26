@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,47 +8,47 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { auth, db } from "../../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { useState, useEffect } from "react";
-import { onAuthStateChanged, getAuth } from "firebase/auth";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import "./NavBar.css";
-import { Button, Icon } from "@mui/material";
+import { onAuthStateChanged } from "firebase/auth";
+import Button from "@mui/material/Button";
 import CreateEventModal from "../CreateEventModal/CreateEventModal";
-import AddContributionModal from "../AddContributionModal/AddContriButionModal";
+import AddContributionModal from "../EventCard/EventCard";
+import "./NavBar.css";
 
 export default function NavBar() {
-    const [auth, setAuth] = useState(getAuth());
     const [userDetails, setUserDetails] = useState(null);
     const [isCreateEventOpen, setCreateEventOpen] = useState(false);
     const [isAddContributionOpen, setAddContributionOpen] = useState(false);
     const [selectedEventID, setSelectedEventID] = useState(null);
 
     useEffect(() => {
-        onAuthStateChanged(auth, async (user) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
-                // console.log(auth);
-                // console.log("User:", user);
                 const docRef = doc(db, "Users", user.uid);
                 const docSnap = await getDoc(docRef);
 
-                if (docSnap) {
+                if (docSnap.exists()) {
                     setUserDetails(docSnap.data());
-                    console.log(docSnap.data());
                 } else {
-                    console.log("No such document!");
+                    console.log("No such user document!");
                 }
             } else {
+                setUserDetails(null);
                 console.log("User not logged in");
             }
         });
+
+        return () => unsubscribe();
     }, []);
+
+    // Handle event creation
+    const handleCreateEvent = (eventID) => {
+        setSelectedEventID(eventID);
+        setCreateEventOpen(false);
+    };
 
     return (
         <div className="nav-bar">
-            <Box
-                sx={{ flexGrow: 1 }}
-                container={document.getElementById("nav-bar")}
-            >
+            <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="fixed">
                     <Toolbar>
                         <IconButton
@@ -65,7 +65,7 @@ export default function NavBar() {
                             component="div"
                             sx={{ flexGrow: 1 }}
                         >
-                            Photos
+                            Event Manager
                         </Typography>
 
                         <Button
@@ -77,12 +77,12 @@ export default function NavBar() {
 
                         <Button
                             variant="contained"
-                            onClick={() => {
-                                setAddContributionOpen(true);
-                            }}
+                            onClick={() => setAddContributionOpen(true)}
+                            disabled={!selectedEventID}
                         >
                             Add Contribution
                         </Button>
+
                         <AddContributionModal
                             open={isAddContributionOpen}
                             onClose={() => setAddContributionOpen(false)}
@@ -92,17 +92,21 @@ export default function NavBar() {
                         <CreateEventModal
                             open={isCreateEventOpen}
                             onClose={() => setCreateEventOpen(false)}
-                        ></CreateEventModal>
+                            onCreateEvent={handleCreateEvent}
+                        />
 
-                        {userDetails ? (
+                        {userDetails && (
                             <>
-                                <h1>Welcome {userDetails.name}</h1>
-                                <IconButton>
+                                <Typography
+                                    variant="body1"
+                                    sx={{ marginRight: 2 }}
+                                >
+                                    Welcome, {userDetails.name}
+                                </Typography>
+                                <IconButton color="inherit">
                                     <AccountCircle />
                                 </IconButton>
                             </>
-                        ) : (
-                            <></>
                         )}
                     </Toolbar>
                 </AppBar>
