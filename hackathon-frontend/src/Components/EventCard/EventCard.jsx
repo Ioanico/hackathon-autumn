@@ -16,40 +16,28 @@ const EventCard = ({ event }) => {
     }
 
     return (
-        <div id="event-card">
-            <Card
-                sx={{ margin: 2 }}
-                container={document.getElementById("event-card")}
-            >
-                <CardContent>
-                    <Typography variant="h5">{event.title}</Typography>
-                    <Typography variant="body1">Date: {event.date}</Typography>
-                    <Typography variant="body1">
-                        Location: {event.location}
-                    </Typography>
-                    <Typography variant="body1">
-                        Budget: ${event.budget}
-                    </Typography>
-                    <Typography variant="h6">Contributions</Typography>
-                    <List>
-                        {event.contributions.map((contribution, index) => (
-                            <ListItem key={index}>
-                                <ListItemText
-                                    primary={contribution.item}
-                                    secondary={`Assigned to: ${
-                                        contribution.assignedTo
-                                    } - ${
-                                        contribution.status
-                                            ? "Complete"
-                                            : "Pending"
-                                    }`}
-                                />
-                            </ListItem>
-                        ))}
-                    </List>
-                </CardContent>
-            </Card>
-        </div>
+        <Card sx={{ margin: 2 }}>
+            <CardContent>
+                <Typography variant="h5">{event.title}</Typography>
+                <Typography variant="body1">Date: {event.date}</Typography>
+                <Typography variant="body1">
+                    Location: {event.location}
+                </Typography>
+                <Typography variant="body1">Budget: ${event.budget}</Typography>
+
+                <Typography variant="h6">Contributions</Typography>
+                <List>
+                    {event.contributions.map((contribution, index) => (
+                        <ListItem key={index}>
+                            <ListItemText
+                                primary={contribution.item}
+                                secondary={`Contributed by: ${contribution.contributor}`}
+                            />
+                        </ListItem>
+                    ))}
+                </List>
+            </CardContent>
+        </Card>
     );
 };
 

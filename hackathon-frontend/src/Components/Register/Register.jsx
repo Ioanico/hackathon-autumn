@@ -1,66 +1,81 @@
 import React, { useState } from "react";
 import "./Register.css";
 import { TextField, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase/firebase";
 import { setDoc, doc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const Register = () => {
+    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
-
-    const onNameChange = (e) => setName(e.target.value);
-    const onEmailChange = (e) => setEmail(e.target.value);
-    const onPasswordChange = (e) => setPassword(e.target.value);
 
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            const user = auth.currentUser;
-            if (user) {
-                await setDoc(doc(db, "Users", user.uid), {
-                    email: user.email,
-                    name: name,
-                });
-            }
-            console.log("user registered successfully");
-            navigate("/login");
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+            const user = userCredential.user;
+            await setDoc(doc(db, "Users", user.uid), {
+                email: user.email,
+                name: name,
+            });
+            navigate("/home");
         } catch (error) {
-            console.error("error during registration:", error.message);
+            console.error("Error during registration:", error);
+            toast.error(
+                "Registration failed. Please check your details and try again."
+            );
         }
     };
 
     return (
-        <div id="register-container">
-            <TextField
-                id="name-input"
-                variant="standard"
-                onChange={onNameChange}
-                label="Enter your name"
-            />
-            <TextField
-                id="email-input"
-                variant="standard"
-                onChange={onEmailChange}
-                label="Enter your email"
-            />
-            <TextField
-                id="password-input"
-                variant="standard"
-                type="password"
-                onChange={onPasswordChange}
-                label="Enter your Password"
-            />
-            <p id="dont-have-acc">
-                Already have an account? <a href="/login">Login</a>
-            </p>
-            <Button variant="contained" onClick={handleRegister}>
-                Register
-            </Button>
+        <div id="container-register">
+            <div className="register">
+                <h1>Register</h1>
+                <div className="line"></div>
+
+                <TextField
+                    variant="standard"
+                    onChange={(e) => setName(e.target.value)}
+                    label="Enter your name"
+                />
+
+                <TextField
+                    variant="standard"
+                    onChange={(e) => setEmail(e.target.value)}
+                    label="Enter your email"
+                />
+
+                <TextField
+                    type="password"
+                    variant="standard"
+                    onChange={(e) => setPassword(e.target.value)}
+                    label="Enter your Password"
+                />
+
+                <Button variant="contained" onClick={handleRegister}>
+                    Register
+                </Button>
+
+                <p id="dont-have-acc">
+                    Already have an account? <a href="/login">Login</a>
+                </p>
+            </div>
+
+            <div className="photo">
+                <h1>Get Watching</h1>
+                <div className="line-photo"></div>
+                <h1>We've Got the Picks</h1>
+            </div>
+
+            <ToastContainer />
         </div>
     );
 };

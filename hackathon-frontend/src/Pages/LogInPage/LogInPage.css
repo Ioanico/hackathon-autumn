@@ -1,0 +1,11 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#login-bg {
+    display: flex;
+    height: 100vh;
+    background-color: rgb(134, 50, 202);
+}

@@ -23,6 +23,7 @@ const AddContributionModal = ({ open, onClose, eventID }) => {
                 eventID,
                 item,
                 assignedTo,
+                status: false,
             });
             onClose();
         } catch (error) {

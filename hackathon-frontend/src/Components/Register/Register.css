@@ -1,13 +1,92 @@
-#register-container {
+#container-register {
     display: flex;
-    flex-direction: column;
-    width: 40%;
-    margin: 0 auto;
+    flex-direction: row;
+    height: 500px;
+    width: 950px;
+    background-color: aqua;
+    margin: auto;
+    box-shadow: 0px 5px 15px rgb(75, 22, 22);
 
-    .MuiFormControl-root {
-        margin-top: 20px;
+    .register {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: 100%;
+        width: 50%;
+        background-color: white;
+
+        h1 {
+            font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+                sans-serif;
+            font-weight: 500;
+            margin-top: 40px;
+            margin-right: 340px;
+        }
+        .line {
+            height: 2px;
+            width: 18%;
+            background-color: rgb(134, 50, 202);
+            margin-right: 342px;
+        }
+        .MuiFormControl-root {
+            margin-top: 30px;
+            width: 85%;
+        }
+        .MuiFormLabel-root {
+            font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+                sans-serif;
+            font-weight: 500;
+        }
+        #forgot-pass {
+            margin-top: 14px;
+            margin-bottom: 40px;
+            font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+                sans-serif;
+            color: rgb(134, 50, 202);
+            font-weight: 900;
+            margin-right: 61%;
+        }
+        #dont-have-acc {
+            margin-top: 50px;
+            font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+                sans-serif;
+        }
+        a {
+            text-decoration: none;
+        }
     }
     .MuiButtonBase-root {
-        margin-top: 20px;
+        background-color: rgb(134, 50, 202);
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+            sans-serif;
+        font-size: 18px;
+        text-transform: none;
+        width: 85%;
+        margin-top: 5%;
+    }
+
+    .photo {
+        padding-top: 70px;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        background-image: url("../../../images/party.jpg");
+        height: 100%;
+        width: 50%;
+        box-shadow: inset 0 0 0 2000px rgba(134, 50, 202, 0.7);
+
+        .line-photo {
+            margin: 0 auto;
+            height: 2px;
+            width: 260px;
+            background-color: rgb(134, 50, 202);
+        }
+    }
+    .photo > h1 {
+        font-size: 50px;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+            sans-serif;
+        color: white;
+        font-weight: 300;
     }
 }

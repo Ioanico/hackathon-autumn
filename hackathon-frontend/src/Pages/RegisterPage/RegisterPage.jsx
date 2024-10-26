@@ -1,9 +1,10 @@
 import React from "react";
 import Register from "../../Components/Register/Register";
+import "./RegisterPage.css";
 
 const RegisterPage = () => {
     return (
-        <div>
+        <div id="register-bg">
             <Register />
         </div>
     );

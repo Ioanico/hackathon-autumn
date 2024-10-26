@@ -1,6 +1,6 @@
 #event-card {
     .MuiCard-root {
-        width: 500px;
-        margin-top: 8%;
+        width: 300px;
+        margin-top: 6%;
     }
 }

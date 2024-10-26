@@ -25,7 +25,6 @@ export default function NavBar() {
             if (user) {
                 const docRef = doc(db, "Users", user.uid);
                 const docSnap = await getDoc(docRef);
-
                 if (docSnap.exists()) {
                     setUserDetails(docSnap.data());
                 } else {
@@ -33,14 +32,11 @@ export default function NavBar() {
                 }
             } else {
                 setUserDetails(null);
-                console.log("User not logged in");
             }
         });
-
         return () => unsubscribe();
     }, []);
 
-    // Handle event creation
     const handleCreateEvent = (eventID) => {
         setSelectedEventID(eventID);
         setCreateEventOpen(false);
@@ -75,27 +71,13 @@ export default function NavBar() {
                             Add Event
                         </Button>
 
-                        <Button
-                            variant="contained"
-                            onClick={() => setAddContributionOpen(true)}
-                            disabled={!selectedEventID}
-                        >
-                            Add Contribution
-                        </Button>
-
-                        <AddContributionModal
-                            open={isAddContributionOpen}
-                            onClose={() => setAddContributionOpen(false)}
-                            eventID={selectedEventID}
-                        />
-
                         <CreateEventModal
                             open={isCreateEventOpen}
                             onClose={() => setCreateEventOpen(false)}
                             onCreateEvent={handleCreateEvent}
                         />
 
-                        {userDetails && (
+                        {userDetails ? (
                             <>
                                 <Typography
                                     variant="body1"
@@ -107,6 +89,10 @@ export default function NavBar() {
                                     <AccountCircle />
                                 </IconButton>
                             </>
+                        ) : (
+                            <Typography variant="body1" sx={{ marginRight: 2 }}>
+                                Welcome, Guest
+                            </Typography>
                         )}
                     </Toolbar>
                 </AppBar>
