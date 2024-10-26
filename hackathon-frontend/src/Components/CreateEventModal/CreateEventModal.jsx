@@ -89,7 +89,6 @@ const CreateEventModal = ({ open, onClose, onCreateEvent }) => {
                     onChange={(e) => setBudget(e.target.value)}
                 />
 
-                {/* contribute thingy */}
                 <TextField
                     label="Contribution Item"
                     fullWidth
@@ -108,7 +107,6 @@ const CreateEventModal = ({ open, onClose, onCreateEvent }) => {
                     Add Contribution
                 </Button>
 
-                {/* List of Contributions */}
                 <List>
                     {contributions.map((contribution, index) => (
                         <ListItem key={index}>
