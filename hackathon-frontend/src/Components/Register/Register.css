@@ -1,0 +1,13 @@
+#register-container {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 0 auto;
+
+    .MuiFormControl-root {
+        margin-top: 20px;
+    }
+    .MuiButtonBase-root {
+        margin-top: 20px;
+    }
+}
