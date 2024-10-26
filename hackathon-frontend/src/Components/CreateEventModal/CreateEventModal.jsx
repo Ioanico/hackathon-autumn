@@ -15,6 +15,7 @@ import { db } from "../../firebase/firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import "./CreateEventModal.css";
 
 const CreateEventModal = ({ open, onClose, onCreateEvent }) => {
     const [title, setTitle] = useState("");
@@ -59,76 +60,79 @@ const CreateEventModal = ({ open, onClose, onCreateEvent }) => {
     };
 
     return (
-        <Dialog open={open} onClose={onClose}>
-            <DialogTitle>Create New Event</DialogTitle>
-            <DialogContent>
-                <TextField
-                    label="Event Title"
-                    fullWidth
-                    margin="normal"
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                <TextField
-                    label="Date"
-                    type="date"
-                    fullWidth
-                    margin="normal"
-                    onChange={(e) => setDate(e.target.value)}
-                />
-                <TextField
-                    label="Location"
-                    fullWidth
-                    margin="normal"
-                    onChange={(e) => setLocation(e.target.value)}
-                />
-                <TextField
-                    label="Budget"
-                    type="number"
-                    fullWidth
-                    margin="normal"
-                    onChange={(e) => setBudget(e.target.value)}
-                />
+        <div id="eventmodal">
+            <Dialog open={open} onClose={onClose}>
+                <DialogTitle>Create New Event</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        label="Event Title"
+                        fullWidth
+                        margin="normal"
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    <TextField
+                        type="date"
+                        fullWidth
+                        margin="normal"
+                        onChange={(e) => setDate(e.target.value)}
+                    />
+                    <TextField
+                        label="Location"
+                        fullWidth
+                        margin="normal"
+                        onChange={(e) => setLocation(e.target.value)}
+                    />
+                    <TextField
+                        label="Budget"
+                        type="number"
+                        fullWidth
+                        margin="normal"
+                        onChange={(e) => setBudget(e.target.value)}
+                    />
 
-                <TextField
-                    label="Contribution Item"
-                    fullWidth
-                    margin="normal"
-                    value={contributionItem}
-                    onChange={(e) => setContributionItem(e.target.value)}
-                />
-                <TextField
-                    label="Contributor's Name"
-                    fullWidth
-                    margin="normal"
-                    value={contributorName}
-                    onChange={(e) => setContributorName(e.target.value)}
-                />
-                <Button onClick={handleAddContribution}>
-                    Add Contribution
-                </Button>
+                    <TextField
+                        label="Contribution Item"
+                        fullWidth
+                        margin="normal"
+                        value={contributionItem}
+                        onChange={(e) => setContributionItem(e.target.value)}
+                    />
+                    <TextField
+                        label="Contributor's Name"
+                        fullWidth
+                        margin="normal"
+                        value={contributorName}
+                        onChange={(e) => setContributorName(e.target.value)}
+                    />
+                    <Button onClick={handleAddContribution}>
+                        Add Contribution
+                    </Button>
 
-                <List>
-                    {contributions.map((contribution, index) => (
-                        <ListItem key={index}>
-                            <ListItemText
-                                primary={`${contribution.contributor}: ${contribution.item}`}
-                            />
-                            <IconButton
-                                onClick={() => handleRemoveContribution(index)}
-                            >
-                                <DeleteIcon />
-                            </IconButton>
-                        </ListItem>
-                    ))}
-                </List>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={handleCreateEvent} variant="contained">
-                    Create
-                </Button>
-            </DialogActions>
-        </Dialog>
+                    <List>
+                        {contributions.map((contribution, index) => (
+                            <ListItem key={index}>
+                                <ListItemText
+                                    primary={`${contribution.contributor}: ${contribution.item}`}
+                                />
+                                <IconButton
+                                    onClick={() =>
+                                        handleRemoveContribution(index)
+                                    }
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={onClose}>Cancel</Button>
+                    <Button onClick={handleCreateEvent} variant="contained">
+                        Create
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </div>
     );
 };
 

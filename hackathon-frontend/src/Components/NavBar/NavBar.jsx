@@ -42,25 +42,19 @@ export default function NavBar() {
     };
 
     return (
-        <div className="nav-bar">
-            <Box sx={{ flexGrow: 1 }}>
+        <div id="nav-bar">
+            <Box
+                sx={{ flexGrow: 1 }}
+                container={document.getElementById("nav-bar")}
+            >
                 <AppBar position="fixed">
                     <Toolbar>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
                         <Typography
                             variant="h6"
                             component="div"
                             sx={{ flexGrow: 1 }}
                         >
-                            Event Manager
+                            Plan the party
                         </Typography>
 
                         <Button
@@ -84,9 +78,6 @@ export default function NavBar() {
                                 >
                                     Welcome, {userDetails.name}
                                 </Typography>
-                                <IconButton color="inherit">
-                                    <AccountCircle />
-                                </IconButton>
                             </>
                         ) : (
                             <Typography variant="body1" sx={{ marginRight: 2 }}>
